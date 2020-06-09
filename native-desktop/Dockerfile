@@ -6,6 +6,10 @@ FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019
 # Restore the default Windows shell for correct batch processing.
 SHELL ["cmd", "/S", "/C"]
 
+# Set up environment to collect install errors.
+COPY Install.cmd C:\TEMP\
+ADD https://aka.ms/vscollect.exe C:\TEMP\collect.exe
+
 # Install Node.js LTS
 ADD https://nodejs.org/dist/v12.18.0/node-v12.18.0-x64.msi C:\TEMP\node-install.msi
 RUN start /wait msiexec.exe /i C:\TEMP\node-install.msi /l*vx "%TEMP%\MSI-node-install.log" /qn ADDLOCAL=ALL
